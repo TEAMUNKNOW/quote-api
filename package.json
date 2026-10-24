@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/LyoSU/quote-api#readme",
   "dependencies": {
-    "canvas": "^2.8.0",
+    "canvas": "^3.2.3",
     "dotenv": "^7.0.0",
     "emoji-db": "^16.0.1",
     "jimp": "^1.6.0",
