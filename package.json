@@ -11,7 +11,8 @@
     "lint": "eslint --ext js .",
     "lint:fix": "eslint --fix --ext js .",
     "test": "node test-metrics.js && node test-style.js && node test-attachments.js && node test-fixes.js",
-    "test:visual": "node test-real.js"
+    "test:visual": "node test-real.js",
+    "vercel-build": "npm test"
   },
   "repository": {
     "type": "git",
