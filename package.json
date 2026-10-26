@@ -12,7 +12,7 @@
     "lint:fix": "eslint --fix --ext js .",
     "test": "node test-metrics.js && node test-style.js && node test-attachments.js && node test-fixes.js",
     "test:visual": "node test-real.js",
-    "vercel-build": "npm test"
+    "vercel-build": "node scripts/download-fonts.js && npm test"
   },
   "repository": {
     "type": "git",
