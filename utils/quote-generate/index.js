@@ -34,6 +34,9 @@ async function loadFonts () {
       // Files without a recognized suffix register as plain family names.
       let family = file.replace(/\.[^/.]+$/, '')
       const desc = { }
+      // Google Fonts' variable Noto Sans filename includes axis metadata;
+      // register it under the exact family requested by the renderer.
+      if (family.startsWith('NotoSans[')) family = 'NotoSans'
       const m = family.match(/^(.*?)-(Regular|Bold|Italic|BoldItalic)$/)
       if (m) {
         family = m[1]
@@ -41,6 +44,11 @@ async function loadFonts () {
         if (m[2].includes('Italic')) desc.style = 'italic'
       }
       registerFont(path.join(fontsDir, file), { family, ...desc })
+      if (family === 'NotoSans') {
+        // Monospace styling still needs a registered family; use the same
+        // Unicode-capable font rather than falling back to missing glyphs.
+        try { registerFont(path.join(fontsDir, file), { family: 'NotoSansMono', ...desc }) } catch (_) {}
+      }
     } catch (error) {
       console.warn(`${file} is not a font file`)
     }
