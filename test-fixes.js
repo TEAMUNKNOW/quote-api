@@ -91,6 +91,22 @@ async function main () {
     console.log(`  image/${label}: bubble ${bubble.toFixed(0)} vs wallpaper ${wall.toFixed(0)} (Δ${Math.abs(bubble - wall).toFixed(0)})`)
   }
 
+
+  // 4. Inline image data URLs are used by Nova-bot for forwarded media and
+  //    avatars. They must decode locally rather than being treated as HTTP URLs.
+  const loadImageFromUrl = require('./utils/image-load-url')
+  const tinyPng = Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+j9WQAAAAASUVORK5CYII=',
+    'base64'
+  )
+  const dataUrl = 'data:image/png;base64,' + tinyPng.toString('base64')
+  const decoded = await loadImageFromUrl(dataUrl)
+  assert.ok(decoded.equals(tinyPng), 'image data URL did not decode to original bytes')
+  await assert.rejects(
+    loadImageFromUrl('data:text/plain;base64,SGVsbG8='),
+    /Unsupported image data URL/
+  )
+
   console.log('OK: fixes assertions passed')
   console.log(`  avatar ink ratio grouped/ungrouped = ${ratio.toFixed(3)} (≈0.5)`)
   console.log(`  voice bubble width = ${voice.width} (expected ${expectedW}, row ${row.width})`)
