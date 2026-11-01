@@ -5,6 +5,13 @@
 const assert = require('assert')
 const { drawRoundRect } = require('./utils/quote-generate/canvas-utils')
 const { SP } = require('./utils/quote-generate/composer')
+const { getStyle, classic, glass } = require('./utils/quote-generate/styles')
+
+// Backward compatibility: requests without a style must keep the pre-redesign look.
+assert.strictEqual(getStyle(undefined), classic, 'default style must be classic')
+assert.strictEqual(getStyle('unknown-style'), classic, 'unknown styles must fall back to classic')
+assert.strictEqual(getStyle('classic'), classic, 'classic preset must remain selectable')
+assert.strictEqual(getStyle('glass'), glass, 'glass must remain available when explicitly requested')
 
 function px (canvas, x, y) {
   const d = canvas.getContext('2d').getImageData(x, y, 1, 1).data
