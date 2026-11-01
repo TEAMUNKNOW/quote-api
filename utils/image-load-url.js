@@ -51,7 +51,31 @@ function guardedLookup (hostname, options, callback) {
   })
 }
 
+function decodeDataImage (url) {
+  // Nova-bot sends Telegram media/avatar bytes as data URLs. They are
+  // already downloaded by the bot, so decode locally instead of attempting
+  // an HTTP request (new URL('data:...') is not an HTTP URL).
+  const match = /^data:(image\/(?:png|jpe?g|webp|gif|avif));base64,([A-Za-z0-9+/=]+)$/i.exec(url)
+  if (!match) throw new Error('Unsupported image data URL')
+  const encoded = match[2]
+  if (encoded.length % 4 !== 0) throw new Error('Invalid base64 image data URL')
+  const buffer = Buffer.from(encoded, 'base64')
+  if (!buffer.length || buffer.length > MAX_RESPONSE_BYTES) {
+    throw new Error(`Image data URL must be between 1 and ${MAX_RESPONSE_BYTES} bytes`)
+  }
+  // Reject permissive Buffer.from() decodes of malformed base64.
+  if (buffer.toString('base64') !== encoded) throw new Error('Invalid base64 image data URL')
+  return buffer
+}
+
 function doRequest (url, filter, redirectCount) {
+  if (typeof url === 'string' && url.startsWith('data:')) {
+    try {
+      return Promise.resolve(decodeDataImage(url))
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
   return new Promise((resolve, reject) => {
     const parsed = new URL(url)
     const transport = parsed.protocol === 'https:' ? https : http
@@ -127,3 +151,4 @@ function doRequest (url, filter, redirectCount) {
 
 module.exports = (url, filter = false) => doRequest(url, filter, 0)
 module.exports.isPrivateIp = isPrivateIp
+module.exports.decodeDataImage = decodeDataImage
