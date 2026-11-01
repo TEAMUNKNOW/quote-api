@@ -18,6 +18,13 @@ async function main () {
   // Exercise the same local font registration used by the production app.
   await require('./utils').loadFonts()
 
+  // Fancy Unicode alphabets and symbols must have explicit font fallbacks;
+  // relying on host-installed system fonts makes Vercel output inconsistent.
+  const { resolveFont } = require('./utils/quote-generate/text-prepare')
+  const unicodeFont = resolveFont([], FS)
+  assert.ok(unicodeFont.includes('NotoSansMath'), 'math font fallback must be configured')
+  assert.ok(unicodeFont.includes('NotoSansSymbols2'), 'symbol font fallback must be configured')
+
   // Quotes must preserve source Unicode exactly; the previous normalization
   // silently changed Ukrainian Cyrillic і into Latin i.
   const sourceText = 'Українські літери: і, ї, є, ґ.'
