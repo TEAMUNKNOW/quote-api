@@ -9,7 +9,7 @@ const https = require('https')
 const dir = path.resolve(__dirname, '../assets/fonts')
 const fonts = [
   ['NotoSans[wdth,wght].ttf', 'ofl/notosans/NotoSans%5Bwdth%2Cwght%5D.ttf'],
-  ['NotoSansMono[wght].ttf', 'ofl/notosansmono/NotoSansMono%5Bwght%5D.ttf'],
+  ['NotoSansMono[wdth,wght].ttf', 'ofl/notosansmono/NotoSansMono%5Bwdth%2Cwght%5D.ttf'],
   ['NotoSansDevanagari[wdth,wght].ttf', 'ofl/notosansdevanagari/NotoSansDevanagari%5Bwdth%2Cwght%5D.ttf'],
   ['NotoSansBengali[wdth,wght].ttf', 'ofl/notosansbengali/NotoSansBengali%5Bwdth%2Cwght%5D.ttf'],
   ['NotoSansTamil[wdth,wght].ttf', 'ofl/notosanstamil/NotoSansTamil%5Bwdth%2Cwght%5D.ttf'],
