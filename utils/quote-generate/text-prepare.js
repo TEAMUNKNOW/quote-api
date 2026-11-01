@@ -75,7 +75,10 @@ function resolveFont (styles, fontSize) {
   if (styles.includes('italic')) fontType += 'italic '
   if (styles.includes('monospace')) fontName = 'NotoSansMono'
 
-  return `${fontType}${fontSize}px ${fontName}`
+  // node-canvas does not reliably select separately registered symbol fonts
+  // unless they are named in the CSS family list. Keep the normal text face
+  // first, then fall back for mathematical alphabets and uncommon symbols.
+  return `${fontType}${fontSize}px \\"${fontName}\\", \\"NotoSansMath\\", \\"NotoSansSymbols2\\"`
 }
 
 // Parse entities into per-character style/emoji data
@@ -551,4 +554,4 @@ function loadCustomEmojiImage (id, telegram) {
   return p
 }
 
-module.exports = { prepareText, graphemeSegmenter, getMeasureCtx, fontMetrics, loadCustomEmojiImage }
+module.exports = { prepareText, graphemeSegmenter, getMeasureCtx, fontMetrics, resolveFont, loadCustomEmojiImage }
