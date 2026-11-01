@@ -40,6 +40,10 @@ async function loadFonts () {
       // "NotoSans-BoldItalic.ttf" → family NotoSans, weight bold, style italic.
       // Files without a recognized suffix register as plain family names.
       let family = file.replace(/\.[^/.]+$/, '')
+      // Google Fonts variable files include axis tags in their filenames,
+      // e.g. NotoSans[wdth,wght]. Register them under the family names used
+      // by the renderer (NotoSans / NotoSansDevanagari), not the raw filename.
+      family = family.replace(/\[[^\]]+\]$/, '')
       const desc = { }
       const m = family.match(/^(.*?)-(Regular|Bold|Italic|BoldItalic)$/)
       if (m) {
