@@ -24,6 +24,9 @@ async function main () {
   const unicodeFont = resolveFont([], FS)
   assert.ok(unicodeFont.includes('NotoSansMath'), 'math font fallback must be configured')
   assert.ok(unicodeFont.includes('NotoSansSymbols2'), 'symbol font fallback must be configured')
+  assert.ok(unicodeFont.includes('NotoSansDevanagari'), 'Devanagari font fallback must be configured')
+  assert.ok(unicodeFont.includes('NotoSansArabic'), 'Arabic font fallback must be configured')
+  assert.ok(unicodeFont.includes('NotoSansThai'), 'Thai font fallback must be configured')
 
   // Quotes must preserve source Unicode exactly; the previous normalization
   // silently changed Ukrainian Cyrillic і into Latin i.
