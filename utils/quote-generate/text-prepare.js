@@ -78,7 +78,7 @@ function resolveFont (styles, fontSize) {
   // node-canvas does not reliably select separately registered symbol fonts
   // unless they are named in the CSS family list. Keep the normal text face
   // first, then fall back for mathematical alphabets and uncommon symbols.
-  return `${fontType}${fontSize}px \\"${fontName}\\", \\"NotoSansMath\\", \\"NotoSansSymbols2\\"`
+  return `${fontType}${fontSize}px "${fontName}", "NotoSansMath", "NotoSansSymbols2"`
 }
 
 // Parse entities into per-character style/emoji data
