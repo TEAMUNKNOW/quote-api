@@ -15,6 +15,16 @@ const { fontMetrics } = require('./utils/quote-generate/text-prepare')
 const FS = 24
 
 async function main () {
+  // Exercise the same local font registration used by the production app.
+  await require('./utils').loadFonts()
+
+  // Quotes must preserve source Unicode exactly; the previous normalization
+  // silently changed Ukrainian Cyrillic і into Latin i.
+  const sourceText = 'Українські літери: і, ї, є, ґ.'
+  const prepared = await require('./utils/quote-generate/text-prepare').prepareText(sourceText, [], FS, 'apple', null)
+  assert.strictEqual(prepared.segments.map(segment => segment.text).join(''), sourceText,
+    'text preparation must preserve every original Unicode character')
+
   const { ascent, descent } = fontMetrics(FS)
   const lineHeight = FS * 1.2
   const W = 2000
