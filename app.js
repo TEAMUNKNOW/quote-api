@@ -82,4 +82,9 @@ async function start () {
   })
 }
 
-start()
+
+// Export the Koa app for Vercel's serverless adapter.
+module.exports = { app, start }
+
+// Keep direct execution supported, while avoiding app.listen() on Vercel.
+if (require.main === module) start()

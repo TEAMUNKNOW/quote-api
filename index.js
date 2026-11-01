@@ -1,2 +1,5 @@
 require('dotenv').config({ path: './.env' })
-require('./app')
+
+const { start } = require('./app')
+
+start()
