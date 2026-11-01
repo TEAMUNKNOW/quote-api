@@ -492,8 +492,8 @@ async function prepareText (text, entities, fontSize, emojiBrand, telegram) {
     }
   }
 
-  // Normalize Ukrainian і → Latin i (existing behavior)
-  text = text.replace(/і/g, 'i')
+  // Keep source text byte-for-byte (including Ukrainian і); quote output
+  // must never silently rewrite characters before measuring or rendering.
 
   // 1. Build per-character style data
   const styledChars = buildStyledChars(text, entities)
