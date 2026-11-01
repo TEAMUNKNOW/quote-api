@@ -165,10 +165,10 @@ const classic = {
 
 const STYLES = { glass, classic }
 
-// Missing / unknown style → classic (the pre-redesign default).
-// Glass remains available when a caller explicitly requests style: 'glass'.
+// Missing / unknown style → glass (the original pre-PR default).
+// Classic remains available when a caller explicitly requests style: 'classic'.
 function getStyle (name) {
-  return Object.prototype.hasOwnProperty.call(STYLES, name) ? STYLES[name] : classic
+  return Object.prototype.hasOwnProperty.call(STYLES, name) ? STYLES[name] : glass
 }
 
 module.exports = { STYLES, getStyle, glass, classic, concentric }
