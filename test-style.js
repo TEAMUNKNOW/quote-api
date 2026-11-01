@@ -7,9 +7,9 @@ const { drawRoundRect } = require('./utils/quote-generate/canvas-utils')
 const { SP } = require('./utils/quote-generate/composer')
 const { getStyle, classic, glass } = require('./utils/quote-generate/styles')
 
-// Backward compatibility: requests without a style must keep the pre-redesign look.
-assert.strictEqual(getStyle(undefined), classic, 'default style must be classic')
-assert.strictEqual(getStyle('unknown-style'), classic, 'unknown styles must fall back to classic')
+// Backward compatibility: keep the original pre-PR glass default.
+assert.strictEqual(getStyle(undefined), glass, 'default style must be glass')
+assert.strictEqual(getStyle('unknown-style'), glass, 'unknown styles must fall back to glass')
 assert.strictEqual(getStyle('classic'), classic, 'classic preset must remain selectable')
 assert.strictEqual(getStyle('glass'), glass, 'glass must remain available when explicitly requested')
 
